@@ -3,91 +3,33 @@
   const reduzir = matchMedia("(prefers-reduced-motion: reduce)").matches;
   const celular = matchMedia("(max-width: 760px)").matches;
 
-  /* ── Scroll que reproduce el video ────────────────────────────────────── */
+  /* ── Portada: el video arranca solo y los textos entran sincronizados ── */
   const cine = document.querySelector(".cine");
-  const canvas = cine && cine.querySelector(".cine-canvas");
-  if (cine && canvas && S.frames && S.frames.total) {
-    const ctx = canvas.getContext("2d");
-    const total = S.frames.total;
-    const padrao = celular ? S.frames.mobile : S.frames.desktop;
-    const src = (i) => padrao.replace("{n}", String(i + 1).padStart(4, "0"));
-    const quadros = new Array(total);
-    const momentos = [...cine.querySelectorAll(".momento")];
-    let alvo = 0, atual = 0, desenhado = -1;
-
-    const carregar = (i) => {
-      if (quadros[i]) return quadros[i];
-      const img = new Image();
-      img.decoding = "async";
-      img.src = src(i);
-      img.onload = () => { if (Math.round(atual) === i || desenhado === -1) desenhar(i, true); };
-      return (quadros[i] = img);
+  const video = cine && cine.querySelector(".cine-video");
+  if (cine && video) {
+    const itens = [...cine.querySelectorAll(".entra")];
+    const mostrarTodo = () => { itens.forEach((el) => el.classList.add("ativo")); cine.classList.add("fim"); };
+    const sincronizar = () => {
+      const t = video.currentTime;
+      itens.forEach((el) => el.classList.toggle("ativo", t >= parseFloat(el.dataset.t || 0)));
+      if (!video.paused && !video.ended) requestAnimationFrame(sincronizar);
     };
-
-    carregar(0);
-    if (!reduzir) {
-      const fila = [];
-      for (const passo of [8, 4, 2, 1]) for (let i = 0; i < total; i += passo) if (!fila.includes(i)) fila.push(i);
-      let k = 0;
-      const lote = () => { for (let n = 0; n < 6 && k < fila.length; n++) carregar(fila[k++]); if (k < fila.length) setTimeout(lote, 40); };
-      lote();
+    video.src = celular ? video.dataset.movil : video.dataset.desktop;
+    if (reduzir) {
+      video.poster = "assets/video/apertura-final.webp";
+      mostrarTodo();
+    } else {
+      video.addEventListener("play", () => { cine.classList.remove("fim"); requestAnimationFrame(sincronizar); });
+      video.addEventListener("ended", mostrarTodo);
+      const p = video.play();
+      if (p) p.catch(mostrarTodo); // si el navegador bloquea el autoplay, se ve todo igual
+      setTimeout(() => { if (video.paused && !video.ended && video.currentTime === 0) mostrarTodo(); }, 2500);
     }
-
-    const pronto = (i) => quadros[i] && quadros[i].complete && quadros[i].naturalWidth;
-    const maisProximo = (i) => {
-      for (let d = 0; d < total; d++) {
-        if (pronto(i - d)) return i - d;
-        if (pronto(i + d)) return i + d;
-      }
-      return -1;
-    };
-
-    const ajustar = () => {
-      const dpr = Math.min(window.devicePixelRatio || 1, 2);
-      canvas.width = Math.round(canvas.clientWidth * dpr);
-      canvas.height = Math.round(canvas.clientHeight * dpr);
-      desenhado = -1;
-      desenhar(Math.round(atual), true);
-    };
-
-    function desenhar(i, forcar) {
-      const j = maisProximo(i);
-      if (j < 0 || (j === desenhado && !forcar)) return;
-      const img = quadros[j];
-      const cw = canvas.width, ch = canvas.height;
-      const escala = Math.max(cw / img.naturalWidth, ch / img.naturalHeight);
-      const w = img.naturalWidth * escala, h = img.naturalHeight * escala;
-      ctx.drawImage(img, (cw - w) / 2, (ch - h) / 2, w, h);
-      desenhado = j;
-    }
-
-    const progresso = () => {
-      const r = cine.getBoundingClientRect();
-      const curso = cine.offsetHeight - innerHeight;
-      return Math.min(1, Math.max(0, -r.top / (curso || 1)));
-    };
-
-    const atualizarMomentos = (p) => {
-      for (const m of momentos) {
-        const de = parseFloat(m.dataset.de || 0), ate = parseFloat(m.dataset.ate || 1);
-        m.classList.toggle("ativo", p >= de && (p < ate || (ate >= 1 && p >= 1)));
-      }
-      cine.classList.toggle("andou", p > 0.02);
-    };
-
-    const quadro = () => {
-      alvo = progresso() * (total - 1);
-      atual += (alvo - atual) * 0.18;
-      if (Math.abs(alvo - atual) < 0.05) atual = alvo;
-      desenhar(Math.round(atual));
-      atualizarMomentos(atual / (total - 1));
-      requestAnimationFrame(quadro);
-    };
-
-    addEventListener("resize", ajustar);
-    ajustar();
-    if (reduzir) atualizarMomentos(0);
-    else requestAnimationFrame(quadro);
+    const repetir = cine.querySelector(".cine-repetir");
+    repetir && repetir.addEventListener("click", () => {
+      itens.forEach((el) => el.classList.remove("ativo"));
+      video.currentTime = 0; video.play().catch(mostrarTodo);
+    });
   }
 
   /* ── Parallax suave en las artes ──────────────────────────────────────── */

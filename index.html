@@ -7,13 +7,13 @@
   <meta name="description" content="Cambio de aceite, filtros y revisión de 10 puntos en 30 minutos, sin turno y con precio cerrado. Gascón 1546, Palermo, CABA. Lun a Vie 8 a 18 hs, Sáb 8 a 13 hs.">
   <meta property="og:title" content="Lubricentro 1546 · Tu auto listo en 30 minutos">
   <meta property="og:description" content="Sin turno, sin espera, con precio cerrado. Gascón 1546, Palermo, CABA.">
-  <meta property="og:image" content="assets/frames/desktop/f_0080.webp">
+  <meta property="og:image" content="assets/img/og.webp">
   <meta name="theme-color" content="#0c0c0d">
   <link rel="icon" href="assets/favicon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wdth,wght@0,62..125,300..900;1,62..125,700..900&display=swap" rel="stylesheet">
-  <link rel="preload" as="image" href="assets/frames/desktop/f_0001.webp">
+  <link rel="preload" as="image" href="assets/video/apertura-inicio.webp">
   <link rel="stylesheet" href="estilo.css">
   <script type="application/ld+json">
   {"@context":"https://schema.org","@type":"AutoRepair","name":"Lubricentro 1546","telephone":"+54 9 11 2268-8770",
@@ -39,37 +39,34 @@
 
 <main>
 
-  <!-- APERTURA: el video avanza con el scroll -->
-  <section id="inicio" class="cine" style="--altura: 460vh">
+  <!-- APERTURA: el video arranca solo al abrir la página -->
+  <section id="inicio" class="cine">
     <div class="cine-palco">
-      <canvas class="cine-canvas" aria-hidden="true"></canvas>
+      <video class="cine-video" muted playsinline preload="auto" poster="assets/video/apertura-inicio.webp" aria-hidden="true"
+        data-desktop="assets/video/apertura.mp4" data-movil="assets/video/apertura-movil.mp4"></video>
       <div class="cine-vinheta"></div>
 
-      <div class="momento" data-de="0" data-ate="0.3">
-        <div class="painel painel--vidro painel--hero">
+      <div class="cine-conteudo">
+        <div class="painel painel--vidro painel--hero entra" data-t="0.2">
           <span class="chapa">Palermo · CABA</span>
           <h1 class="titulo-abertura">Tu auto listo en <em>30 minutos</em>, en pleno Palermo, CABA.</h1>
           <p class="apoio">Cambio de aceite, filtros y revisión completa en Lubricentro 1546. Entrás, te atendemos, salís andando. Así de fácil.</p>
-        </div>
-      </div>
-
-      <div class="momento momento--direita" data-de="0.38" data-ate="0.66">
-        <div class="painel painel--vidro">
-          <p class="destaque">Sin turno.<br>Sin espera.<br><span>Con precio cerrado.</span></p>
-        </div>
-      </div>
-
-      <div class="momento momento--centro" data-de="0.74" data-ate="1">
-        <div class="painel painel--vidro painel--cta">
-          <p class="destaque destaque--chico">Gascón 1546. La persiana roja.</p>
-          <div class="botoes">
+          <div class="botoes entra" data-t="0.9">
             <a class="botao" data-wa="turno" target="_blank" rel="noopener">Reservá tu turno por WhatsApp</a>
             <a class="botao botao--linha" data-wa="precio" target="_blank" rel="noopener">¿Cuánto sale para mi auto?</a>
           </div>
         </div>
+
+        <div class="sellos" aria-label="Sin turno, sin espera, con precio cerrado">
+          <p class="sello entra" data-t="2.4">Sin turno.</p>
+          <p class="sello entra" data-t="3.9">Sin espera.</p>
+          <p class="sello sello--rojo entra" data-t="5.4">Con precio cerrado.</p>
+          <p class="sello-dir entra" data-t="7.0">Gascón 1546 · persiana negra, pared roja</p>
+        </div>
       </div>
 
-      <div class="cine-dica" aria-hidden="true"><span></span>bajá</div>
+      <button class="cine-repetir" type="button" aria-label="Ver el video de nuevo">↺ Ver de nuevo</button>
+      <a href="#servicios" class="cine-dica" aria-label="Bajar"><span></span>bajá</a>
     </div>
   </section>
 
@@ -138,7 +135,7 @@
   <section id="local" class="secao secao--local">
     <div class="painel painel--cabecalho revelar">
       <span class="rotulo">04 · El local</span>
-      <h2>Gascón 1546, la persiana roja</h2>
+      <h2>Gascón 1546: persiana negra, pared roja</h2>
     </div>
     <div class="mosaico">
       <figure class="m m--a revelar"><img src="assets/img/fachada-gol.webp" alt="Fachada roja del Lubricentro 1546 en Gascón 1546" loading="lazy"><figcaption>La fachada</figcaption></figure>

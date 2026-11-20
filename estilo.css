@@ -82,50 +82,59 @@ strong { color: #fff; font-weight: 700; }
   font-size: .75rem; font-weight: 700; letter-spacing: .22em; text-transform: uppercase; color: var(--rojo-2);
 }
 
-/* ── Apertura cinematográfica ────────────────────── */
-.cine { position: relative; height: var(--altura, 460vh); }
-.cine-palco { position: sticky; top: 0; height: 100vh; height: 100svh; overflow: hidden; }
-.cine-canvas { position: absolute; inset: 0; width: 100%; height: 100%; }
+/* ── Apertura cinematográfica (video automático) ── */
+.cine { position: relative; }
+.cine-palco { position: relative; height: 100vh; height: 100svh; min-height: 620px; overflow: hidden; background: var(--fundo); }
+.cine-video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
 .cine-vinheta {
   position: absolute; inset: 0; pointer-events: none;
   background:
-    radial-gradient(120% 90% at 50% 50%, transparent 40%, rgba(12,12,13,.75) 100%),
-    linear-gradient(to bottom, rgba(12,12,13,.55), transparent 22%, transparent 70%, var(--fundo));
+    radial-gradient(120% 90% at 50% 50%, transparent 40%, rgba(12,12,13,.7) 100%),
+    linear-gradient(to bottom, rgba(12,12,13,.55), transparent 22%, transparent 68%, var(--fundo)),
+    linear-gradient(to right, rgba(12,12,13,.55), transparent 55%);
 }
-.momento {
-  position: absolute; inset: 0; display: flex; align-items: center;
-  padding: 90px var(--gutter) 60px; pointer-events: none;
-  opacity: 0; transform: translateY(28px); transition: opacity .6s ease, transform .8s cubic-bezier(.2,.7,.2,1);
+.cine-conteudo {
+  position: absolute; inset: 0; z-index: 2;
+  display: flex; align-items: center; justify-content: space-between; gap: 40px;
+  padding: 110px var(--gutter) 80px;
+  max-width: 1440px; margin: 0 auto;
 }
-.momento.ativo { opacity: 1; transform: none; pointer-events: auto; }
-.momento--direita { justify-content: flex-end; }
-.momento--centro { justify-content: center; align-items: flex-end; padding-bottom: 12vh; }
-.painel--vidro { max-width: 640px; background: rgba(10,10,11,.55); }
-.painel--hero { max-width: 820px; }
+.entra { opacity: 0; transform: translateY(26px); transition: opacity .7s ease, transform .9s cubic-bezier(.2,.7,.2,1); }
+.entra.ativo { opacity: 1; transform: none; }
+.painel--vidro { background: rgba(10,10,11,.55); }
+.painel--hero { max-width: 660px; flex: 0 1 660px; }
+.painel--hero .botoes { margin-top: 28px; }
 .chapa {
   display: inline-block; margin-bottom: 18px; padding: .35em .8em;
   font-size: .72rem; font-weight: 800; letter-spacing: .2em; text-transform: uppercase;
   background: var(--rojo); color: #fff;
 }
-.titulo-abertura { font-size: clamp(2.1rem, 5.2vw, 4.4rem); font-weight: 900; }
+.titulo-abertura { font-size: clamp(2rem, 4.1vw, 3.6rem); font-weight: 900; }
 .titulo-abertura em { font-style: italic; color: var(--ambar); }
 .apoio { margin-top: 20px; font-size: clamp(1rem, 1.4vw, 1.15rem); color: #ddd8d1; max-width: 54ch; }
-.destaque {
-  font-size: clamp(2rem, 4.6vw, 3.8rem); font-weight: 900; line-height: 1.02; text-transform: uppercase;
-  font-variation-settings: "wdth" 120;
+.sellos { display: flex; flex-direction: column; align-items: flex-end; gap: 10px; flex: none; }
+.sello {
+  font-size: clamp(1.3rem, 2.3vw, 2.1rem); font-weight: 900; line-height: 1; text-transform: uppercase;
+  font-variation-settings: "wdth" 122; padding: .25em .45em;
+  background: rgba(10,10,11,.6); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+  border-right: 4px solid var(--rojo);
 }
-.destaque span { color: var(--rojo-2); }
-.destaque--chico { font-size: clamp(1.3rem, 2.4vw, 2rem); margin-bottom: 22px; text-align: center; }
-.painel--cta { max-width: 760px; text-align: center; }
-.painel--cta .botoes { justify-content: center; }
+.sello--rojo { background: var(--rojo); border-color: #fff; }
+.sello-dir { margin-top: 8px; font-size: .78rem; font-weight: 700; letter-spacing: .18em; text-transform: uppercase; color: #ddd8d1; background: rgba(10,10,11,.6); padding: .5em .8em; }
+.cine-repetir {
+  position: absolute; right: var(--gutter); bottom: 26px; z-index: 3;
+  background: rgba(10,10,11,.6); color: var(--suave); border: 1px solid var(--linha); border-radius: var(--raio);
+  font: 700 .72rem var(--fonte); letter-spacing: .14em; text-transform: uppercase; padding: .7em 1em; cursor: pointer;
+  opacity: 0; pointer-events: none; transition: opacity .4s, color .2s;
+}
+.cine.fim .cine-repetir { opacity: 1; pointer-events: auto; }
+.cine-repetir:hover { color: #fff; }
 .cine-dica {
-  position: absolute; left: 50%; bottom: 26px; transform: translateX(-50%);
+  position: absolute; left: 50%; bottom: 22px; transform: translateX(-50%); z-index: 3; text-decoration: none;
   display: flex; flex-direction: column; align-items: center; gap: 8px;
   font-size: .7rem; letter-spacing: .3em; text-transform: uppercase; color: var(--suave);
-  transition: opacity .4s;
 }
 .cine-dica span { width: 2px; height: 42px; background: linear-gradient(var(--rojo), transparent); animation: dica 1.6s infinite; }
-.cine.andou .cine-dica { opacity: 0; }
 @keyframes dica { 0% { transform: scaleY(0); transform-origin: top; } 50% { transform: scaleY(1); transform-origin: top; } 51% { transform-origin: bottom; } 100% { transform: scaleY(0); transform-origin: bottom; } }
 
 /* ── Franja de seguridad ─────────────────────────── */
@@ -325,12 +334,18 @@ strong { color: #fff; font-weight: 700; }
   .resena--destaque, .resena--destaque.revelar.visto { transform: none; }
   .rodape-grade { grid-template-columns: 1fr; }
   .arte--direita { width: 100%; opacity: .35; }
+  .cine-conteudo { flex-direction: column; justify-content: flex-end; align-items: stretch; gap: 14px; }
+  .sellos { flex-direction: row; flex-wrap: wrap; align-items: center; justify-content: flex-start; gap: 6px; order: -1; }
+  .sello { font-size: 1rem; border-right: 0; border-left: 3px solid var(--rojo); }
+  .sello--rojo { border-left-color: #fff; }
+  .sello-dir { display: none; }
 }
 @media (max-width: 640px) {
   body { font-size: 16px; }
   .marca-logo { height: 42px; }
-  .momento { padding: 80px 16px 40px; align-items: flex-end; padding-bottom: 14vh; }
-  .momento--direita { justify-content: flex-start; }
+  .cine-palco { min-height: 680px; }
+  .cine-conteudo { padding: 84px 16px 84px; }
+  .cine-repetir { display: none; }
   .painel--vidro { padding: 22px; }
   .botoes { flex-direction: column; }
   .botoes .botao { width: 100%; }
