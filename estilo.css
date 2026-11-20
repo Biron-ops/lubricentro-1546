@@ -126,6 +126,8 @@ strong { color: #fff; font-weight: 700; }
 }
 .sello--rojo { background: var(--rojo); border-color: #fff; }
 .sello-dir { margin-top: 8px; font-size: .78rem; font-weight: 700; letter-spacing: .18em; text-transform: uppercase; color: #ddd8d1; background: rgba(10,10,11,.6); padding: .5em .8em; }
+/* Botón "Reservá tu turno": abajo a la derecha, arriba del botón verde flotante */
+.botao-turno { position: absolute; right: var(--gutter); bottom: 96px; z-index: 3; }
 .cine-repetir {
   position: absolute; right: var(--gutter); bottom: 26px; z-index: 3;
   background: rgba(10,10,11,.6); color: var(--suave); border: 1px solid var(--linha); border-radius: var(--raio);
@@ -349,7 +351,8 @@ strong { color: #fff; font-weight: 700; }
   body { font-size: 16px; }
   .marca-logo { height: 42px; }
   .cine-palco { min-height: 680px; }
-  .cine-conteudo { padding: 84px 16px 84px; }
+  .cine-conteudo { padding: 84px 16px 150px; }
+  .botao-turno { left: 16px; right: 84px; bottom: 84px; text-align: center; }
   .cine-repetir { display: none; }
   .painel--vidro { padding: 22px; }
   .botoes { flex-direction: column; }
