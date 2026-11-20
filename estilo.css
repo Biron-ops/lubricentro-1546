@@ -351,8 +351,8 @@ strong { color: #fff; font-weight: 700; }
   body { font-size: 16px; }
   .marca-logo { height: 42px; }
   .cine-palco { min-height: 680px; }
-  .cine-conteudo { padding: 84px 16px 150px; }
-  .botao-turno { left: 16px; right: 84px; bottom: 84px; text-align: center; }
+  .cine-conteudo { padding: 84px 16px 130px; }
+  .botao-turno { right: 16px; bottom: 84px; padding: .7em 1em; font-size: .72rem; letter-spacing: .04em; }
   .cine-repetir { display: none; }
   .painel--vidro { padding: 22px; }
   .botoes { flex-direction: column; }
